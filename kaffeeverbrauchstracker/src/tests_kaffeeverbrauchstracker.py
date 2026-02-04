@@ -28,8 +28,16 @@ class CoffeeTrackerTest(unittest.TestCase):
         self.tracker.add_coffee(150, day=self.d1)
         self.assertEqual(self.tracker.total_ml_for_day(self.d1), 350)
 
+    def test_average_ml_for_day_empty(self):
+        self.assertEqual(self.tracker.average_ml_for_day(self.d1), 0.0)
+
+    def test_average_ml_for_day(self):
+        self.tracker.add_coffee(200, day=self.d1)
+        self.tracker.add_coffee(100, day=self.d1)
+        self.assertEqual(self.tracker.average_ml_for_day(self.d1), 150.0)
 
 
 if __name__ == "__main__":
     unittest.main()
+
 
