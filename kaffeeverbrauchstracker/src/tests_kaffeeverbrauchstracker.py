@@ -35,9 +35,17 @@ class CoffeeTrackerTest(unittest.TestCase):
         self.tracker.add_coffee(200, day=self.d1)
         self.tracker.add_coffee(100, day=self.d1)
         self.assertEqual(self.tracker.average_ml_for_day(self.d1), 150.0)
+        
+    def test_limit_exceeded_for_day(self):
+        self.tracker.add_coffee(30, day=self.d1, kind="espresso")
+        self.tracker.add_coffee(30, day=self.d1, kind="espresso")
+        self.tracker.add_coffee(200, day=self.d1, kind="coffee")
+        self.assertTrue(self.tracker.limit_exceeded_for_day(self.d1))
+
 
 
 if __name__ == "__main__":
     unittest.main()
+
 
 
