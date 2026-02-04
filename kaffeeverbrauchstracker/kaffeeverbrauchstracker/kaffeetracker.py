@@ -1,8 +1,9 @@
 python
 
 from __future__ import annotations
-from datacalsses import date
-from typing import List, Optional
+from dataclasses import dataclass
+from datetime import date
+from typing import List, Optional, Dict
 
 @dataclass(frozen=True)
 class CoffeeEntry:
@@ -10,7 +11,7 @@ class CoffeeEntry:
     amount_ml: int
     kind: str = "coffee"
 
-class CoffeeTracker;
+class CoffeeTracker:
     def __init__(self, daily_limit_count: int = 5) -> None:
         if daily_limit_count < 1:
             raise ValueError("daily_limit_count muss >= 1 sein")
@@ -56,6 +57,7 @@ class CoffeeTracker;
           entry_day = day or date.today()
           self._entries.append(CoffeeEntry(day=entry_day, amount_ml=amount_ml, kind=kind.strip().lower()))
     
+
 
 
 
