@@ -29,11 +29,17 @@ class CoffeeTracker;
     def coffee_count_for_day(self, day: Optional[date] = None) -> int:
         entry_day = day or date.today()
         return len(self.entries_for_day(entry_day))
+        
+    def total_ml_for_day(self, day: Optional[date] = None) -> int:
+        entry_day = day or date.today()
+        return sum(e.amount_ml for e in self.entries_for_day(entry_day))
+
 
 
           entry_day = day or date.today()
           self._entries.append(CoffeeEntry(day=entry_day, amount_ml=amount_ml, kind=kind.strip().lower()))
     
+
 
 
 
