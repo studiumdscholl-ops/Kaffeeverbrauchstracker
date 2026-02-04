@@ -2,7 +2,7 @@ python
 
 from __future__ import annotations
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, timedelta
 from typing import List, Optional, Dict
 
 @dataclass(frozen=True)
@@ -18,14 +18,26 @@ class CoffeeTracker:
         self._daily_limit_count = daily_limit_count
         self._entries: List[CoffeeEntry] = []
         
-    def add_coffee(self, amount_ml: int, day: Optional[date] = None, kind: str = "coffee") -> None:
+    def add_coffee(
+        self, 
+        amount_ml: int, 
+        day: Optional[date] = None, 
+        kind: str = "coffee",
+    ) -> None:
         if amount_ml <= 0:
             raise ValueError("amount_ml muss > 0 sein")
         if not kind or not kind.strip():
             raise ValueError("kind darf nicht leer sein")
-            
-    def entries_for_day(self, day: date):
-         return [e for e in self._entries if e.day == day]
+
+        entry_day = day or date.today()
+        normalized_kind = kind.strip().lower()
+
+        self._entries.append(
+            CoffeeEntry(day=entry_day, amount_ml=amount_ml, kind=normalized_kind)
+        )
+
+    def entries_for_day(self, day: date) -> List[CoffeeEntry]:
+        return [e for e in self._entries if e.day == day]
 
     def coffee_count_for_day(self, day: Optional[date] = None) -> int:
         entry_day = day or date.today()
@@ -45,18 +57,22 @@ class CoffeeTracker:
     def limit_exceeded_for_day(self, day: Optional[date] = None) -> bool:
         entry_day = day or date.today()
         return self.coffee_count_for_day(entry_day) > self._daily_limit_count
-
-    def weekly_totals_ml(self, week_start: date):
-        totals = {}
+        
+    @staticmethod
+    def week_start(d: date) -> date:
+        """Montag als Wochenstart."""
+        return d - timedelta(days=d.weekday())
+    
+    def weekly_totals_ml(self, week_start: date) -> Dict[date, int]:
+        totals: Dict[date, int] = {}
         for i in range(7):
-            d = date.fromordinal(week_start.toordinal() + i)
-            totals[d] = self.total_ml_for_day(d)
+            current_day = week_start + timedelta(days=i)
+            totals[current_day] = self.total_ml_for_day(current_day)
         return totals
 
-
-          entry_day = day or date.today()
-          self._entries.append(CoffeeEntry(day=entry_day, amount_ml=amount_ml, kind=kind.strip().lower()))
+          
     
+
 
 
 
