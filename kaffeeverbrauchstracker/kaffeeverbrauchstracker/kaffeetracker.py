@@ -41,11 +41,14 @@ class CoffeeTracker;
             return 0.0
         return self.total_ml_for_day(entry_day) / len(entries)
 
-
+    def limit_exceeded_for_day(self, day: Optional[date] = None) -> bool:
+        entry_day = day or date.today()
+        return self.coffee_count_for_day(entry_day) > self._daily_limit_count
 
           entry_day = day or date.today()
           self._entries.append(CoffeeEntry(day=entry_day, amount_ml=amount_ml, kind=kind.strip().lower()))
     
+
 
 
 
