@@ -2,7 +2,7 @@ python
 
 import unittest
 from datetime import date
-from src.coffee_tracker import CoffeeTracker
+from kaffeetracker import CoffeeTracker
 
 class CoffeeTrackerTest(unittest.TestCase):
     def setUp(self):
@@ -52,6 +52,7 @@ class CoffeeTrackerTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
 
 
 
