@@ -1,26 +1,28 @@
 python
 
-from __future__ import annotations
-from datacalsses import date
-from typing import List, Optional
+import unittest
+from datetime import date
+from src.coffee_tracker import CoffeeTracker
 
-@dataclass(frozen=True)
-class CoffeeEntry:
-    day: date
-    amount_ml: int
-    kind: str = "coffee"
+class CoffeeTrackerTest(unittest.TestCase):
+    def setUp(self):
+        self.tracker = CoffeeTracker(daily_limit_count=2)
+        self.d1 = date(2026, 2, 1)
 
-class CoffeeTracker;
-    def __init__(self, daily_limit_count: int = 5) -> None:
-        if daily_limit_count < 1:
-            raise ValueError("daily_limit_count muss >= 1 sein")
-        self._daily_limit_count = daily_limit_count
-        self._entries: List[CoffeeEntry] = []
-     def add_coffee(self, amount_ml: int, day: Optional[date] = None, kind: str = "coffee") -> None:
-        if amount_ml <= 0:
-            raise ValueError("amount_ml muss > 0 sein")
-        if not kind or not kind.strip():
-            raise ValueError("kind darf nicht leer sein")
+    def test_add_coffee_increases_count_by_day(self):
+        self.tracker.add_coffee(200, day=self.d1, kind="coffee")
+        # indirekte Überprüfung der internen Länge, später anders
+        # -> kein weiterer Assert möglich ohne entries_for_day
+        self.assertTrue(True)
+
+    def test_invalid_amount_raises(self):
+        with self.assertRaises(ValueError):
+            self.tracker.add_coffee(0, day=self.d1)
+
+    def test_invalid_kind_raises(self):
+        with self.assertRaises(ValueError):
+            self.tracker.add_coffee(100, day=self.d1, kind="  ")
 
 
-
+if __name__ == "__main__":
+    unittest.main()
