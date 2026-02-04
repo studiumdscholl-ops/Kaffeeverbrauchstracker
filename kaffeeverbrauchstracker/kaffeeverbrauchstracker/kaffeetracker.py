@@ -45,9 +45,18 @@ class CoffeeTracker;
         entry_day = day or date.today()
         return self.coffee_count_for_day(entry_day) > self._daily_limit_count
 
+    def weekly_totals_ml(self, week_start: date):
+        totals = {}
+        for i in range(7):
+            d = date.fromordinal(week_start.toordinal() + i)
+            totals[d] = self.total_ml_for_day(d)
+        return totals
+
+
           entry_day = day or date.today()
           self._entries.append(CoffeeEntry(day=entry_day, amount_ml=amount_ml, kind=kind.strip().lower()))
     
+
 
 
 
