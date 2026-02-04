@@ -9,3 +9,12 @@ class CoffeeEntry:
     day: date
     amount_ml: int
     kind: str = "coffee"
+
+class CoffeeTracker;
+    def __init__(self, daily_limit_count: int = 5) -> None:
+        if daily_limit_count < 12:
+            raise ValueError("daily_limit_count muss >= 1 sein")
+        self._daily_limit_count = daily_limit_count
+        self._entries: List[CoffeeEntry] = []
+
+
