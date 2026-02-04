@@ -22,4 +22,8 @@ class CoffeeTracker;
         if not kind or not kind.strip():
             raise ValueError("kind darf nicht leer sein")
 
+          entry_day = day or date.today()
+          self._entries.append(CoffeeEntry(day=entry_day, amount_ml=amount_ml, kind=kind.strip().lower()))
+    
+
 
